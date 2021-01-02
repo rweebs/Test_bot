@@ -75,12 +75,12 @@ const  errorStatus = "Bad Request";
 const okStatus = "OK";
 async function fetchDateData(dateKeyword) {
     
-  const dateResponse = await fetch(`http://api.aladhan.com/v1/gToH?date=${dateKeyword}`)
+  const dateResponse = await fetch(`https://api.banghasan.com/sholat/format/json/kota/nama/${dateKeyword}`)
     .then(response => {return response.json()})
     .then(result => {
       if(result.status === okStatus){
         // if there is more than one city found, return the first one
-        const fetchedDate=result.data.hijri.date; 
+        const fetchedDate=result.kota[0].id; 
         return fetchedDate
       }
       throw new Error("Kota tidak valid");
