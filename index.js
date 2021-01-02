@@ -72,7 +72,7 @@ async function handleDateCommand(date) {
 }
 
 const  errorStatus = "Bad Request";
-const okStatus = "OK";
+const okStatus = "ok";
 async function fetchDateData(dateKeyword) {
     
   const dateResponse = await fetch(`https://api.banghasan.com/sholat/format/json/kota/nama/${dateKeyword}`)
