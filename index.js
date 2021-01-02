@@ -54,14 +54,6 @@ async function parseCommand(event) {
   return createTextResponse("Keyword Tidak Valid. Ketik 'help' untuk menunjukkan cara penggunaan");}
 }
 
-
-const createTextResponse = (textContent) => {
-  return {
-    type: 'text',
-    text: textContent
-  }
-}
-
 const  errorStatus = "Bad Request";
 const okStatus = "OK";
 async function fetchDateData(dateKeyword) {
@@ -77,6 +69,13 @@ async function fetchDateData(dateKeyword) {
     });
 }
 
+
+const createTextResponse = (textContent) => {
+  return {
+    type: 'text',
+    text: textContent
+  }
+}
 
 app.listen(PORT, () => {
   let date = new Date().toString();
