@@ -62,37 +62,19 @@ const createTextResponse = (textContent) => {
   }
 }
 
-async function handleDateCommand(date) {
-  const dateResponse = await fetchDateData(date);
-  
-  if(dateResponse.status === okStatus) {
-    return createTextResponse(dateResponse)
-  }
-  return createTextResponse(dateResponse.message)
-}
-
 const  errorStatus = "Bad Request";
-const okStatus = "ok";
+const okStatus = "OK";
 async function fetchDateData(dateKeyword) {
     
-  const dateResponse = await fetch(`https://api.banghasan.com/sholat/format/json/kota/nama/${dateKeyword}`)
+  const dateResponse = await fetch(`http://api.aladhan.com/v1/gToH?date=${dateKeyword}`)
     .then(response => {return response.json()})
     .then(result => {
       if(result.status === okStatus){
         // if there is more than one city found, return the first one
-        const fetchedDate=result.kota[0].id; 
-        return fetchedDate
+        createTextResponse(result.data.hijri.date); 
       }
       throw new Error("Kota tidak valid");
-    })
-    .catch(error => {
-      return {
-        status: errorStatus,
-        message: error.message
-      }
     });
-    
-  return dateResponse;
 }
 
 
