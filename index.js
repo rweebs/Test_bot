@@ -47,8 +47,11 @@ async function parseCommand(event) {
     const cityKeyword = event.message.text.replace(shalatCommand, '').trim();
     return (await handleShalatCommand(cityKeyword));
   }
-
-  return createTextResponse("Keyword Tidak Valid. Ketik 'help' untuk menunjukkan cara penggunaan");
+  else if(event.message.text.includes(Help)){
+    return createTextResponse("Cara menggunakannya adalah dengan mengetik 'sholat (lokasi)'.\n\n Contoh : sholat Bekasi");
+  }
+  else {
+  return createTextResponse("Keyword Tidak Valid. Ketik 'help' untuk menunjukkan cara penggunaan");}
 }
 
 const createFlexResponse = (flexContent, context) => {
