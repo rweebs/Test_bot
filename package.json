@@ -1,10 +1,9 @@
 {
-  "name": "test-bot",
+  "name": "test_bot",
   "version": "1.0.0",
-  "description": "Test-Bot",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -13,6 +12,10 @@
   },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rweebs/Test_bot/issues"
+  },
+  "homepage": "https://github.com/rweebs/Test_bot#readme",
   "devDependencies": {
     "nodemon": "^2.0.4"
   },
