@@ -92,25 +92,17 @@ const  errorStatus = "error";
 const okStatus = "ok";
 async function fetchDateData(dateKeyword) {
     
-  const dateResponse = await fetch(` http://api.aladhan.com/v1/gToH?date=${dateKeyword}`)
+  const dateResponse = await fetch(`http://api.aladhan.com/v1/gToH?date=${dateKeyword}`)
     .then(response => {return response.json()})
     .then(result => {
       if(result.status === okStatus){
         // if there is more than one city found, return the first one
-        return result.hijri.date
+        return result.data.hijri.date;
         // const fetchedCityCode = result.kota[0].id;
         // const currDate = (new Date()).yyyymmdd();
-        
         // return fetch(`https://api.banghasan.com/sholat/format/json/jadwal/kota/${fetchedCityCode}/tanggal/${currDate}`)
       }
       throw new Error("Kota tidak valid");
-    })
-    .then(response => {return response.json()})
-    .then(result => {
-      if(result.status === okStatus) {
-        return result
-      }
-      throw new Error("jadwal fetch error");
     })
     .catch(error => {
       return {
