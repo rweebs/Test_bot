@@ -97,7 +97,7 @@ async function fetchDateData(dateKeyword) {
     .then(result => {
       if(result.status === okStatus){
         // if there is more than one city found, return the first one
-        return result.data.hijri.date;
+        return result.data.hijri.date
         // const fetchedCityCode = result.kota[0].id;
         // const currDate = (new Date()).yyyymmdd();
         // return fetch(`https://api.banghasan.com/sholat/format/json/jadwal/kota/${fetchedCityCode}/tanggal/${currDate}`)
