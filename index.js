@@ -45,7 +45,7 @@ const Help='help';
 async function parseCommand(event) {
   if(event.message.text.includes(dateCommand)) {
     const dateKeyword = event.message.text.replace(dateCommand, '').trim();
-    return (await handleDateCommand(dateKeyword));
+    return (await fetchDateData(dateKeyword));
   }
   else if(event.message.text.includes(Help)){
     return createTextResponse("Cara menggunakannya adalah dengan mengetik 'sholat (lokasi)'.\n\n Contoh : sholat Bekasi");
