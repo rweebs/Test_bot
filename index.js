@@ -85,13 +85,6 @@ async function fetchShalatData(cityKeyword) {
       }
       throw new Error("Kota tidak valid");
     })
-    .then(response => {return response.json()})
-    .then(result => {
-      if(result.status === okStatus) {
-        return result
-      }
-      throw new Error("jadwal fetch error");
-    })
     .catch(error => {
       return {
         status: errorStatus,
