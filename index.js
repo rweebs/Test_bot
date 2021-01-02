@@ -40,12 +40,12 @@ async function handleEvent(event) {
   return client.replyMessage(event.replyToken, parsedResponse)
 };
 
-const dateCommand = "tanggal";
-const Help='help';
+const shalatCommand = "sholat";
+const Help='help' || 'Help';
 async function parseCommand(event) {
-  if(event.message.text.includes(dateCommand)) {
-    const dateKeyword = event.message.text.replace(dateCommand, '').trim();
-    return (await fetchDateData(dateKeyword));
+  if(event.message.text.includes(shalatCommand)) {
+    const cityKeyword = event.message.text.replace(shalatCommand, '').trim();
+    return (await handleShalatCommand(cityKeyword));
   }
   else if(event.message.text.includes(Help)){
     return createTextResponse("Cara menggunakannya adalah dengan mengetik 'sholat (lokasi)'.\n\n Contoh : sholat Bekasi");
@@ -54,28 +54,55 @@ async function parseCommand(event) {
   return createTextResponse("Keyword Tidak Valid. Ketik 'help' untuk menunjukkan cara penggunaan");}
 }
 
-const  errorStatus = "Bad Request";
-const okStatus = "OK";
-async function fetchDateData(dateKeyword) {
-    
-  const dateResponse = await fetch(`http://api.aladhan.com/v1/gToH?date=${dateKeyword}`)
-    .then(response => {return response.json()})
-    .then(result => {
-      if(result.status === okStatus){
-        // if there is more than one city found, return the first one
-        createTextResponse(result.data.hijri.date); 
-      }
-      throw new Error("Kota tidak valid");
-    });
-}
-
-
 const createTextResponse = (textContent) => {
   return {
     type: 'text',
     text: textContent
   }
 }
+
+async function handleShalatCommand(cityKeyword) {
+  const shalatResponse = await fetchShalatData(cityKeyword);
+  
+  if(shalatResponse.status === okStatus) {
+    return createTextResponse(shalatResponse)
+  }
+  return createTextResponse(shalatResponse.message)
+}
+
+
+const  errorStatus = "error";
+const okStatus = "ok";
+async function fetchShalatData(cityKeyword) {
+    
+  const shalatResponse = await fetch(`https://api.banghasan.com/sholat/format/json/kota/nama/${cityKeyword}`)
+    .then(response => {return response.json()})
+    .then(result => {
+      if(result.status === okStatus){
+        // if there is more than one city found, return the first one
+        const fetchedCityCode = result.kota[0].id;
+        return fetchedCityCode
+      }
+      throw new Error("Kota tidak valid");
+    })
+    .then(response => {return response.json()})
+    .then(result => {
+      if(result.status === okStatus) {
+        return result
+      }
+      throw new Error("jadwal fetch error");
+    })
+    .catch(error => {
+      return {
+        status: errorStatus,
+        message: error.message
+      }
+    });
+    
+  return shalatResponse;
+}
+
+
 
 app.listen(PORT, () => {
   let date = new Date().toString();
