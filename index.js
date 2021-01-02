@@ -41,7 +41,7 @@ async function handleEvent(event) {
 };
 
 const shalatCommand = "sholat";
-const Help='help' || 'Help';
+const Help='help';
 async function parseCommand(event) {
   if(event.message.text.includes(shalatCommand)) {
     const cityKeyword = event.message.text.replace(shalatCommand, '').trim();
