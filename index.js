@@ -89,7 +89,7 @@ async function handleDateCommand(date) {
 // };
 
 const  errorStatus = "error";
-const okStatus = "ok";
+const okStatus = "OK";
 async function fetchDateData(dateKeyword) {
     
   const dateResponse = await fetch(`http://api.aladhan.com/v1/gToH?date=${dateKeyword}`)
