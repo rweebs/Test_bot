@@ -41,12 +41,14 @@ async function handleEvent(event) {
 };
 
 const shalatCommand = "sholat";
+const Help='help';
 async function parseCommand(event) {
   if(event.message.text.includes(shalatCommand)) {
     const cityKeyword = event.message.text.replace(shalatCommand, '').trim();
     return (await handleShalatCommand(cityKeyword));
   }
-  return createTextResponse(event.message.text);
+
+  return createTextResponse("Keyword Tidak Valid. Ketik 'help' untuk menunjukkan cara penggunaan");
 }
 
 const createFlexResponse = (flexContent, context) => {
@@ -100,7 +102,7 @@ async function fetchShalatData(cityKeyword) {
         
         return fetch(`https://api.banghasan.com/sholat/format/json/jadwal/kota/${fetchedCityCode}/tanggal/${currDate}`)
       }
-      throw new Error("city fetch error");
+      throw new Error("Kota tidak valid");
     })
     .then(response => {return response.json()})
     .then(result => {
