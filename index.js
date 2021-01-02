@@ -65,7 +65,7 @@ async function handleShalatCommand(cityKeyword) {
   const shalatResponse = await fetchShalatData(cityKeyword);
   
   if(shalatResponse.status === okStatus) {
-    return createTextResponse(shalatResponse.kota[0].id)
+    return createTextResponse(shalatResponse.id)
   }
   return createTextResponse(shalatResponse.message)
 }
@@ -80,7 +80,8 @@ async function fetchShalatData(cityKeyword) {
     .then(result => {
       if(result.status === okStatus){
         // if there is more than one city found, return the first one
-        return result.kota[0].id
+        return {
+          id : result.kota[0].id}
       }
       throw new Error("Kota tidak valid");
     })
