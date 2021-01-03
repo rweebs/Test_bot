@@ -163,6 +163,13 @@ const createTextResponse = (textContent) => {
     text: textContent
   }
 }
+const createFlexResponse = (flexContent, context) => {
+  return {
+    type: 'flex',
+    altText: context,
+    contents: flexContent
+  }
+} 
 
 async function handledateCommand(dateKeyword) {
   const dateResponse = await fetchdateData(dateKeyword);
@@ -176,7 +183,8 @@ async function handleShaumCommand(dateKeyword) {
   const dateResponse = await fetchShaumData(dateKeyword);
   
   if(dateResponse.status === okStatus) {
-    return createTextResponse(generateShaum(generate(dateResponse)))
+    return createFlexResponse(
+      createShaumDatesContainer(generate(dateResponse),monthKeyword),'Jadwal Puasa')
   }
   return createTextResponse(dateResponse.message)
 }
@@ -249,14 +257,152 @@ async function fetchShaumData (dateKeyword) {
   return dateResponse;
 }
 
-const generateShaum = (eventlist) =>{
-  listevent="";
-  eventlist.forEach(data =>{
-    listevent+=data.date+' '+data.event+'\n';
-  })
-  return listevent
-}
+// const generateShaum = (eventlist) =>{
+//   listevent="";
+//   eventlist.forEach(data =>{
+//     listevent+=data.date+' '+data.event+'\n';
+//   })
+//   return listevent
+// }
+const createShaumDatesContainer = (fetchResult,monthKeyword) =>{
+  let containerJSON = {
+    "type": "bubble",
+    "header": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "Jadwal Puasa ",
+          "margin": "none",
+          "size": "lg",
+          "weight": "bold",
+          "style": "italic",
+          "position": "relative",
+          "align": "center",
+          "color": "#FFFFFF",
+          "gravity": "center",
+          "wrap": true
+        }
+      ],
+      "position": "relative",
+      "backgroundColor": "#0f4c81"
+    },
+    "hero": {
+      "type": "image",
+      "url": "https://1.bp.blogspot.com/-wrIFRMhqtUg/V82Jl90z8kI/AAAAAAAADas/p7dClIfCXQs_CMhIsiEBnz88YidqkOtFQCLcB/s1600/MSTEI%2BITB.jpg",
+      "size": "full",
+      "aspectRatio": "20:13",
+      "aspectMode": "cover"
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": `Bulan ${monthKeyword[1]+" "+monthKeyword[2]}`,
+          "weight": "bold",
+          "size": "xl"
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "margin": "lg",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "Tanggal",
+                  "size": "sm",
+                  "flex": 2,
+                  "weight": "bold",
+                  "decoration": "none",
+                  "position": "relative",
+                  "align": "center",
+                  "gravity": "center",
+                  "wrap": true
+                },
+                {
+                  "type": "text",
+                  "text": "Puasa",
+                  "wrap": true,
+                  "size": "sm",
+                  "flex": 5,
+                  "weight": "bold",
+                  "style": "normal"
+                }
+              ]
+            }
+            
+          ]
+        }
+      ],
+      "position": "relative"
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "spacing": "sm",
+      "contents": [
+        {
+          "type": "button",
+          "style": "link",
+          "height": "sm",
+          "action": {
+            "type": "uri",
+            "label": "INSTAGRAM",
+            "uri": "https://www.instagram.com/muslimstei/"
+          }
+        },
+        {
+          "type": "spacer",
+          "size": "sm"
+        }
+      ],
+      "flex": 0
+    }
+  }
 
+  const isipuasa = (item) =>{
+    const container ={
+      "type": "box",
+      "layout": "baseline",
+      "spacing": "sm",
+      "contents": [
+        {
+          "type": "text",
+          "text": `${item.date}`,
+          "color": "#666666",
+          "size": "sm",
+          "flex": 2,
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "text": `${item.event}`,
+          "wrap": true,
+          "color": "#666666",
+          "size": "sm",
+          "flex": 5
+        }
+      ]
+    }
+
+  }
+  const containerPuasa=[]
+  fetchResult.forEach(item =>{
+    containerPuasa.push(isipuasa(item));
+  });
+  containerPuasa.forEach(item =>{
+    containerJSON['body']['contents'].push(item)
+  })
+}
 app.listen(PORT, () => {
   let date = new Date().toString();
   console.log(`Deployed on ${date}`);
