@@ -1,29 +1,13 @@
 {
-  "name": "test_bot",
-  "version": "1.0.0",
-  "description": "",
+  "name": "echo-bot",
+  "version": "0.0.0",
+  "description": "An example LINE bot just to echo messages",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rweebs/Test_bot.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/rweebs/Test_bot/issues"
-  },
-  "homepage": "https://github.com/rweebs/Test_bot#readme",
-  "devDependencies": {
-    "nodemon": "^2.0.4"
+    "start": "node ."
   },
   "dependencies": {
-    "@line/bot-sdk": "^7.0.0",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "googleapis": "^39.2.0",
-    "node-fetch": "^2.6.0"
+    "@line/bot-sdk": "^6.8.0",
+    "express": "^4.16.3"
   }
 }
