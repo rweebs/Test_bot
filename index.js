@@ -41,7 +41,21 @@ async function handleEvent(event) {
 function generate(monthResponse){
   const eventlist=[];
   monthResponse.data.forEach(item =>{
-    if(item.hijri.day==="13"||item.hijri.day==="14"||item.hijri.day==="15"){
+    if(item.hijri.month.number===10 && item.hijri.day==="01"){
+      eventlist.push({date : item.gregorian.day, event : 'Idul Fitri (Haram Berpuasa)'})}
+    else if(item.hijri.month.number===12 && item.hijri.day==='09'){
+      eventlist.push({date : item.gregorian.day, event : 'Arafah'})}
+    else if(item.hijri.month.number===12 && item.hijri.day==='10'){
+      eventlist.push({date : item.gregorian.day, event : 'Idul Adha (Haram Berpuasa)'})}
+    else if(item.hijri.month.number===12 && (item.hijri.day==='11' || item.hijri.day==='12' || item.hijri.day==='13')){
+      eventlist.push({date : item.gregorian.day, event : 'Tasyrik (Haram Berpuasa)'})}
+    else if(item.hijri.month.number===9){
+      eventlist.push({date : item.gregorian.day, event : 'Ramadhan'})}
+    else if(item.hijri.month.number===1 && item.hijri.day==="10"){
+      eventlist.push({date : item.gregorian.day, event : 'Asyura'})}
+    else if(item.hijri.month.number===1 && item.hijri.day==='09'){
+      eventlist.push({date : item.gregorian.day, event : 'Tasu\'ah'})}
+    else if(item.hijri.day==="13"||item.hijri.day==="14"||item.hijri.day==="15"){
       eventlist.push({date : item.gregorian.day, event : 'Puasa Ayyamul Bidh'})
     }
     else if(item.gregorian.weekday.en==="Monday"||item.gregorian.weekday.en==="Thursday"){
@@ -70,8 +84,8 @@ function generate(monthResponse){
 //   }
 //   monthResponse.data.forEach(item =>{
 //   if (syawal){
-//       if(item.hijri.month.number===10 && item.hijri.day==="01"){
-//         eventlist.push({date : item.gregorian.day, event : 'Idul Fitri (Haram Berpuasa)'})}
+      // if(item.hijri.month.number===10 && item.hijri.day==="01"){
+      //   eventlist.push({date : item.gregorian.day, event : 'Idul Fitri (Haram Berpuasa)'})}
 //       else if(item.hijri.day==="13"||item.hijri.day==="14"||item.hijri.day==="15"){
 //         eventlist.push({date : item.gregorian.day, event : 'Ayyamul Bidh'})}
 //       else if(item.gregorian.weekday.en==="Monday"||item.gregorian.weekday.en==="Thursday"){
@@ -79,12 +93,12 @@ function generate(monthResponse){
 //       }
     
 //   else if (dzulhijjah){
-//       if(item.hijri.month.number===12 && item.hijri.day==='09'){
-//         eventlist.push({date : item.gregorian.day, event : 'Arafah'})}
-//       else if(item.hijri.month.number===12 && item.hijri.day==='10'){
-//         eventlist.push({date : item.gregorian.day, event : 'Idul Adha (Haram Berpuasa)'})}
-//       else if(item.hijri.month.number===12 && (item.hijri.day==='11' || item.hijri.day==='12' || item.hijri.day==='13')){
-//         eventlist.push({date : item.gregorian.day, event : 'Tasyrik (Haram Berpuasa)'})}
+      // if(item.hijri.month.number===12 && item.hijri.day==='09'){
+      //   eventlist.push({date : item.gregorian.day, event : 'Arafah'})}
+      // else if(item.hijri.month.number===12 && item.hijri.day==='10'){
+      //   eventlist.push({date : item.gregorian.day, event : 'Idul Adha (Haram Berpuasa)'})}
+      // else if(item.hijri.month.number===12 && (item.hijri.day==='11' || item.hijri.day==='12' || item.hijri.day==='13')){
+      //   eventlist.push({date : item.gregorian.day, event : 'Tasyrik (Haram Berpuasa)'})}
 //       else if(item.hijri.day==="13"||item.hijri.day==="14"||item.hijri.day==="15"){
 //         eventlist.push({date : item.gregorian.day, event : 'Ayyamul Bidh'})}
 //       else if(item.gregorian.weekday.en==="Monday"||item.gregorian.weekday.en==="Thursday"){
@@ -92,8 +106,8 @@ function generate(monthResponse){
 //       }
     
 //   else if (ramadhan){
-//       if(item.hijri.month.number===9){
-//         eventlist.push({date : item.gregorian.day, event : 'Ramadhan'})}
+      // if(item.hijri.month.number===9){
+      //   eventlist.push({date : item.gregorian.day, event : 'Ramadhan'})}
 //       else if(item.hijri.day==="13"||item.hijri.day==="14"||item.hijri.day==="15"){
 //         eventlist.push({date : item.gregorian.day, event : 'Ayyamul Bidh'})}
 //       else if(item.gregorian.weekday.en==="Monday"||item.gregorian.weekday.en==="Thursday"){
@@ -101,10 +115,10 @@ function generate(monthResponse){
 //       }
     
 //   else if (muharram){
-//       if(item.hijri.month.number===1 && item.hijri.day==="10"){
-//         eventlist.push({date : item.gregorian.day, event : 'Asyura'})}
-//       else if(item.hijri.month.number===1 && item.hijri.day==='09'){
-//         eventlist.push({date : item.gregorian.day, event : 'Tasu\'ah'})}
+      // if(item.hijri.month.number===1 && item.hijri.day==="10"){
+      //   eventlist.push({date : item.gregorian.day, event : 'Asyura'})}
+      // else if(item.hijri.month.number===1 && item.hijri.day==='09'){
+      //   eventlist.push({date : item.gregorian.day, event : 'Tasu\'ah'})}
 //       else if(item.hijri.day==="13"||item.hijri.day==="14"||item.hijri.day==="15"){
 //         eventlist.push({date : item.gregorian.day, event : 'Ayyamul Bidh'})}
 //       else if(item.gregorian.weekday.en==="Monday"||item.gregorian.weekday.en==="Thursday"){
