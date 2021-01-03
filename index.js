@@ -86,28 +86,6 @@ const okStatus = "ok";
 async function fetchShalatData(cityKeyword) {
     
   const shalatResponse = await fetch(`https://api.banghasan.com/sholat/format/json/kota/nama/${cityKeyword}`)
-    .then(response => {return response.json()})
-    .then(result => {
-      if(result.status === okStatus){
-        // if there is more than one city found, return the first one
-        return result
-      }
-      throw new Error("Kota tidak valid");
-    })
-    .then(response => {return response.json()})
-    .then(result => {
-      if(result.status === okStatus) {
-        return result
-      }
-      throw new Error("jadwal fetch error");
-    })
-    .catch(error => {
-      return {
-        status: errorStatus,
-        message: error.message
-      }
-    });
-    
   return shalatResponse;
 }
 
