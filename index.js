@@ -16,7 +16,6 @@ const config = {
 
 const app = express();
 
-// app.use(express.static('public'));
 
 app.get('/', () => {
   console.log("Hello world!");
@@ -39,40 +38,20 @@ async function handleEvent(event) {
 
   return client.replyMessage(event.replyToken, parsedResponse)
 };
-async function compare(monthResponse){
+function generate(monthResponse){
   const eventlist=[];
-  // const dayFirst=parseInt(monthResponse.data[0].hijri.day);
-  // const dayLast=parseInt(monthResponse.data[monthResponse.length-1].hijri.day);
-  const month=monthResponse.data[0].hijri.month.number;
-  const month2=parseInt(month);
-  const shaumMonth1= await fetchShaumData2(month2);
-  // const shaumMonth2= await fetchShaumData2(month2+1);
-  // for (let j=0;j++;j<shaumMonth1.date.length){
-  //   for(let i=0;i++;i<monthResponse.length){
-  //     if(monthResponse.data[i].hijri.month.number===month){
-  //       if(monthResponse.data[i].hijri.day===shaumMonth1.date[j].day){
-  //         eventlist.push({
-  //           date:monthResponse.data[i].gregorian.date,event:shaumMonth1.date[j].event
-  //         })
-  //       }
-  //     }
-  //   }
-  // }
-    
-  // shaumMonth2.date.forEach(element => {
-  //   for(let i=0;i++;i<monthResponse.length){
-  //     if(monthResponse.data[i].hijri.month.number===month){
-  //       if(monthResponse.data[i].hijri.day===element.day){
-  //         eventlist.push({
-  //           date:monthResponse.data[i].gregorian.date,event:element.event
-  //         })
-  //       }
-  //     }
-  //   }
-    
-    
-  // });
-  return shaumMonth1
+  ramadhan = false;
+  syawal = false;
+  dzulhijjah =false;
+  muharram=false;
+  monthResponse.data.forEach(item =>{
+    if(item.gregorian.weekday.en==="Monday"||"Thursday"){
+      eventlist.push({date : item.gregorian.day, event : 'Puasa Senin-Kamis'})}
+    else if(item.hijri.day==="13"||'14'||'15'){
+      eventlist.push({date : item.gregorian.day, event : 'Puasa Ayyamul Bidh'})
+    }
+  })
+  return eventlist
 }
 const dateCommand = "tanggal";
 const shaumCommand="puasa";
@@ -113,7 +92,7 @@ async function handleShaumCommand(dateKeyword) {
   const dateResponse = await fetchShaumData(dateKeyword);
   
   if(dateResponse.status === okStatus) {
-    return createTextResponse(dateResponse.date[0].day)
+    return createTextResponse(generateShaum(dateResponse))
   }
   return createTextResponse(dateResponse.message)
 }
@@ -185,11 +164,15 @@ async function fetchShaumData (dateKeyword) {
     
   return dateResponse;
 }
-async function fetchShaumData2(month) {
-  const dateResponse = await fetch(`https://database-mstei-rahmat-test-202.herokuapp.com/api/${month}`)
-    .then(response => {return response.json()})
-  return dateResponse;
-}
+
+const generateShaum(eventlist =>{
+  listevent=""
+  eventlist.forEach(data =>{
+    listevent+=data.date+' '+data.event+'\n';
+  })
+  return listevent
+});
+
 app.listen(PORT, () => {
   let date = new Date().toString();
   console.log(`Deployed on ${date}`);
