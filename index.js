@@ -39,13 +39,52 @@ async function handleEvent(event) {
 
   return client.replyMessage(event.replyToken, parsedResponse)
 };
-
+async function compare(monthResponse,monthKeyword){
+  const eventlist=[];
+  const dayFirst=parseInt(monthResponse.data[0].hijri.day);
+  const dayLast=parseInt(monthResponse.data[monthResponse.length-1].hijri.day);
+  const month=monthResponse.data[0].hijri.month.number;
+  const shaumMonth1= await fetch(`https://database-mstei-rahmat-test-202.herokuapp.com/api/${dayFirst}`);
+  const shaumMonth2= await fetch(`https://database-mstei-rahmat-test-202.herokuapp.com/api/${dayLast}`);
+  shaumMonth1.date.forEach(element => {
+    for(let i=0;i++;i<monthResponse.length){
+      if(monthResponse.data[i].hijri.month.number===month){
+        if(monthResponse.data[i].hijri.day===element.day){
+          eventlist.push({
+            date:monthResponse.data[i].gregorian.date,event:element.event
+          })
+        }
+      }
+    }
+    
+    
+  });
+  shaumMonth2.date.forEach(element => {
+    for(let i=0;i++;i<monthResponse.length){
+      if(monthResponse.data[i].hijri.month.number===month){
+        if(monthResponse.data[i].hijri.day===element.day){
+          eventlist.push({
+            date:monthResponse.data[i].gregorian.date,event:element.event
+          })
+        }
+      }
+    }
+    
+    
+  });
+  return eventlist
+}
 const dateCommand = "tanggal";
+const shaumCommand="puasa";
 const Help='help' || 'Help';
 async function parseCommand(event) {
   if(event.message.text.includes(dateCommand)) {
     const dateKeyword = event.message.text.replace(dateCommand, '').trim();
     return (await handledateCommand(dateKeyword));
+  }
+  else if(event.message.text.includes(shaumCommand)) {
+    const monthKeyword = event.message.text.split(' ');
+    return (await handleShaumCommand(monthKeyword));
   }
   else if(event.message.text.includes(Help)){
     return createTextResponse("Cara menggunakannya adalah dengan mengetik 'sholat (lokasi)'.\n\n Contoh : sholat Bekasi");
@@ -70,6 +109,14 @@ async function handledateCommand(dateKeyword) {
   }
   return createTextResponse(dateResponse.message)
 }
+async function handleShaumCommand(dateKeyword) {
+  const dateResponse = await fetchShaumData(dateKeyword);
+  
+  if(dateResponse.status === okStatus) {
+    return createTextResponse(dateResponse[0].date)
+  }
+  return createTextResponse(dateResponse.message)
+}
 
 Date.prototype.yyyymmdd = function() {
   var mm = this.getMonth() + 1; // getMonth() is zero-based
@@ -86,6 +133,40 @@ const okStatus = "OK";
 async function fetchdateData(dateKeyword) {
     
   const dateResponse = await fetch(` http://api.aladhan.com/v1/gToH?date=${dateKeyword}`)
+    .then(response => {return response.json()})
+    .then(result => {
+      if(result.status === okStatus){
+        // if there is more than one date found, return the first one
+        return result
+      }
+      throw new Error("Kota tidak valid");
+    })
+    .catch(error => {
+      return {
+        status: errorStatus,
+        message: error.message
+      }
+    });
+    
+  return dateResponse;
+}
+async function fetchShaumData (dateKeyword) {
+    let bulan = new Map();
+    bulan.set('januari',1);
+    bulan.set('februari',2);
+    bulan.set('maret',3);
+    bulan.set('april',4);
+    bulan.set('mei',5);
+    bulan.set('juni',6);
+    bulan.set('juli',7);
+    bulan.set('agustus',8);
+    bulan.set('september',9);
+    bulan.set('oktober',10);
+    bulan.set('november',11);
+    bulan.set('desember',12);
+    const month=bulan.get(dateKeyword[1].toLowerCase());
+    const year=dateKeyword[2];
+  const dateResponse = await fetch(`http://api.aladhan.com/v1/gToHCalendar/${month}/${year}`)
     .then(response => {return response.json()})
     .then(result => {
       if(result.status === okStatus){
