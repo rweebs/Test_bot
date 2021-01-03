@@ -140,6 +140,7 @@ function generate(monthResponse){
 const dateCommand = "tanggal";
 const shaumCommand="puasa";
 const Help='help' || 'Help';
+const monthKeyword2;
 async function parseCommand(event) {
   if(event.message.text.includes(dateCommand) || event.message.text.includes(dateCommand.toProperCase())) {
     const dateKeyword = event.message.text.replace(dateCommand, '').trim();
@@ -147,6 +148,7 @@ async function parseCommand(event) {
   }
   else if(event.message.text.includes(shaumCommand) || event.message.text.includes(shaumCommand.toProperCase())) {
     const monthKeyword = event.message.text.split(' ');
+    monthKeyword2=monthKeyword;
     return (await handleShaumCommand(monthKeyword));
   }
   else if(event.message.text.includes(Help)){
@@ -184,7 +186,7 @@ async function handleShaumCommand(dateKeyword) {
   
   if(dateResponse.status === okStatus) {
     return createFlexResponse(
-      createShaumDatesContainer(generate(dateResponse),monthKeyword),'Jadwal Puasa')
+      createShaumDatesContainer(generate(dateResponse),monthKeyword2),'Jadwal Puasa')
   }
   return createTextResponse(dateResponse.message)
 }
