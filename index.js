@@ -41,7 +41,7 @@ async function handleEvent(event) {
 };
 
 const shalatCommand = "sholat";
-const Help='help' || 'Help';
+const Help='help';
 async function parseCommand(event) {
   if(event.message.text.includes(shalatCommand)) {
     const cityKeyword = event.message.text.replace(shalatCommand, '').trim();
@@ -54,13 +54,6 @@ async function parseCommand(event) {
   return createTextResponse("Keyword Tidak Valid. Ketik 'help' untuk menunjukkan cara penggunaan");}
 }
 
-const createFlexResponse = (flexContent, context) => {
-  return {
-    type: 'flex',
-    altText: context,
-    contents: flexContent
-  }
-} 
 
 const createTextResponse = (textContent) => {
   return {
@@ -73,23 +66,10 @@ async function handleShalatCommand(cityKeyword) {
   const shalatResponse = await fetchShalatData(cityKeyword);
   
   if(shalatResponse.status === okStatus) {
-    return createFlexResponse(
-      createSholatTimesContainer(shalatResponse, cityKeyword),
-      "Jadwal Sholat"
-    );
+    return createTextResponse(shalatResponse.test)
   }
   return createTextResponse(shalatResponse.message)
 }
-
-Date.prototype.yyyymmdd = function() {
-  var mm = this.getMonth() + 1; // getMonth() is zero-based
-  var dd = this.getDate();
-
-  return [this.getFullYear(),
-          (mm>9 ? '' : '0') + mm,
-          (dd>9 ? '' : '0') + dd
-         ].join('-');
-};
 
 const  errorStatus = "error";
 const okStatus = "ok";
@@ -101,9 +81,8 @@ async function fetchShalatData(cityKeyword) {
       if(result.status === okStatus){
         // if there is more than one city found, return the first one
         const fetchedCityCode = result.kota[0].id;
-        const currDate = (new Date()).yyyymmdd();
         
-        return fetch(`https://api.banghasan.com/sholat/format/json/jadwal/kota/${fetchedCityCode}/tanggal/${currDate}`)
+        return {test:fetchedCityCode}
       }
       throw new Error("Kota tidak valid");
     })
@@ -122,115 +101,6 @@ async function fetchShalatData(cityKeyword) {
     });
     
   return shalatResponse;
-}
-
-const createSholatTimesContainer = (fetchResult, cityKeyword) => {
-  const selectedSholatTimeNames = [
-    "subuh",
-    "dzuhur",
-    "ashar",
-    "maghrib",
-    "isya"
-  ];
-
-  let containerJSON = {
-    type: "bubble",
-    header: {
-      type: "box",
-      layout: "vertical",
-      contents: [
-        {
-          type: "box",
-          layout: "vertical",
-          contents: [
-            {
-              type: "text",
-              text: "Jadwal Sholat",
-              align: "start",
-              size: "xl",
-              color: "#ffffff"
-            }
-          ]
-        },
-        {
-          type: "box",
-          layout: "vertical",
-          contents: [
-            {
-              type: "text",
-              text: `${cityKeyword}`,
-              size: "md",
-              color: "#ffffff",
-              weight: "bold"
-            }
-          ]
-        }
-      ],
-      height: "90px",
-      margin: "md",
-      spacing: "none"
-    },
-    body: {
-      type: "box",
-      layout: "vertical",
-      contents: []
-    },
-    styles: {
-      header: {
-        backgroundColor: "#00b900"
-      }
-    }
-  }
-
-  const sholatTimeItems = [];
-  selectedSholatTimeNames.forEach(sholatTime => {
-    sholatTimeItems.push(jadwalSholatItem(
-      sholatTime,
-      fetchResult.jadwal.data[sholatTime]
-    ))
-  });
-  containerJSON["body"]["contents"] = sholatTimeItems;
-  
-  return containerJSON;
-}
-
-const jadwalSholatItem = (sholatName, sholatTime) => {
-  return {
-    type: "box",
-    layout: "horizontal",
-    contents: [
-      {
-        type: "box",
-        layout: "vertical",
-        contents: [
-          {
-            type: "text",
-            text: `${sholatName}`,
-            align: "start",
-            size: "md"
-          }
-        ],
-        flex: 1,
-        paddingTop: "3px"
-      },
-      {
-        type: "box",
-        layout: "vertical", 
-        contents: [
-          {
-            type: "text",
-            text: `${sholatTime}`,
-            align: "start",
-            size: "lg",
-            weight: "bold"
-          }
-        ],
-        flex: 2,
-        paddingStart: "10px"
-      }
-    ],
-    height: "40px"
-  };
 }
 
 
