@@ -165,13 +165,13 @@ async function fetchShaumData (dateKeyword) {
   return dateResponse;
 }
 
-const generateShaum(eventlist =>{
-  listevent=""
+const generateShaum = (eventlist) =>{
+  listevent="";
   eventlist.forEach(data =>{
     listevent+=data.date+' '+data.event+'\n';
   })
   return listevent
-});
+}
 
 app.listen(PORT, () => {
   let date = new Date().toString();
