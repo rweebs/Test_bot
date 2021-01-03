@@ -56,10 +56,10 @@ function generate(monthResponse){
     else if(item.hijri.month.number===1 && item.hijri.day==='09'){
       eventlist.push({date : item.gregorian.day, event : 'Tasu\'ah'})}
     else if(item.hijri.day==="13"||item.hijri.day==="14"||item.hijri.day==="15"){
-      eventlist.push({date : item.gregorian.day, event : 'Puasa Ayyamul Bidh'})
+      eventlist.push({date : item.gregorian.day, event : 'Ayyamul Bidh'})
     }
     else if(item.gregorian.weekday.en==="Monday"||item.gregorian.weekday.en==="Thursday"){
-      eventlist.push({date : item.gregorian.day, event : 'Puasa Senin-Kamis'})
+      eventlist.push({date : item.gregorian.day, event : 'Senin-Kamis'})
     }
   })
   return eventlist
