@@ -39,7 +39,7 @@ async function handleEvent(event) {
 
   return client.replyMessage(event.replyToken, parsedResponse)
 };
-async function compare(monthResponse,monthKeyword){
+async function compare(monthResponse){
   const eventlist=[];
   const dayFirst=parseInt(monthResponse.data[0].hijri.day);
   const dayLast=parseInt(monthResponse.data[monthResponse.length-1].hijri.day);
@@ -137,7 +137,7 @@ async function fetchdateData(dateKeyword) {
     .then(result => {
       if(result.status === okStatus){
         // if there is more than one date found, return the first one
-        return compare(dateResponse,dateKeyword)
+        return result
       }
       throw new Error("Kota tidak valid");
     })
@@ -172,7 +172,7 @@ async function fetchShaumData (dateKeyword) {
     .then(result => {
       if(result.status === okStatus){
         // if there is more than one date found, return the first one
-        return result
+        return compare(dateResponse)
       }
       throw new Error("Kota tidak valid");
     })
