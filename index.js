@@ -40,8 +40,8 @@ async function handleEvent(event) {
 };
 function generate(monthResponse){
   let eventlist=[];
+  monthResponse.data.forEach(item =>{
   if (monthResponse.data[0].hijri.month.number===10 || monthResponse.data[monthResponse.data.length].hijri.month.number===10){
-    monthResponse.data.forEach(item =>{
       if(item.hijri.month.number===10 && item.hijri.day==="01"){
         eventlist.push({date : item.gregorian.day, event : 'Idul Fitri (Haram Berpuasa)'})}
       else if(item.hijri.day==="13"||item.hijri.day==="14"||item.hijri.day==="15"){
@@ -49,10 +49,8 @@ function generate(monthResponse){
       else if(item.gregorian.weekday.en==="Monday"||item.gregorian.weekday.en==="Thursday"){
         eventlist.push({date : item.gregorian.day, event : 'Senin-Kamis'})}
       }
-    )
-  }
+    
   else if (monthResponse.data[0].hijri.month.number===12 || monthResponse.data[monthResponse.data.length].hijri.month.number===12){
-    monthResponse.data.forEach(item =>{
       if(item.hijri.month.number===12 && item.hijri.day==='09'){
         eventlist.push({date : item.gregorian.day, event : 'Arafah'})}
       else if(item.hijri.month.number===12 && item.hijri.day==='10'){
@@ -64,10 +62,8 @@ function generate(monthResponse){
       else if(item.gregorian.weekday.en==="Monday"||item.gregorian.weekday.en==="Thursday"){
         eventlist.push({date : item.gregorian.day, event : 'Senin-Kamis'})}
       }
-    )
-  }
+    
   else if (monthResponse.data[0].hijri.month.number===9 || monthResponse.data[monthResponse.data.length].hijri.month.number===9){
-    monthResponse.data.forEach(item =>{
       if(item.hijri.month.number===9){
         eventlist.push({date : item.gregorian.day, event : 'Ramadhan'})}
       else if(item.hijri.day==="13"||item.hijri.day==="14"||item.hijri.day==="15"){
@@ -75,10 +71,8 @@ function generate(monthResponse){
       else if(item.gregorian.weekday.en==="Monday"||item.gregorian.weekday.en==="Thursday"){
         eventlist.push({date : item.gregorian.day, event : 'Senin-Kamis'})}
       }
-    )
-  }
+    
   else if (monthResponse.data[0].hijri.month.number===1 || monthResponse.data[monthResponse.data.length].hijri.month.number===1){
-    monthResponse.data.forEach(item =>{
       if(item.hijri.month.number===1 && item.hijri.day==="10"){
         eventlist.push({date : item.gregorian.day, event : 'Asyura'})}
       else if(item.hijri.month.number===1 && item.hijri.day==='09'){
@@ -88,18 +82,14 @@ function generate(monthResponse){
       else if(item.gregorian.weekday.en==="Monday"||item.gregorian.weekday.en==="Thursday"){
         eventlist.push({date : item.gregorian.day, event : 'Senin-Kamis'})}
       }
-    )
-  }
+    
   else{
-    monthResponse.data.forEach(item =>{
       if(item.hijri.day==="13"||item.hijri.day==="14"||item.hijri.day==="15"){
         eventlist.push({date : item.gregorian.day, event : 'Ayyamul Bidh'})}
       else if(item.gregorian.weekday.en==="Monday"||item.gregorian.weekday.en==="Thursday"){
         eventlist.push({date : item.gregorian.day, event : 'Senin-Kamis'})}
       }
-    )
-  }
-  
+  })
   return eventlist
 }
 const dateCommand = "tanggal";
