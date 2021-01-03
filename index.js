@@ -138,11 +138,11 @@ const dateCommand = "tanggal";
 const shaumCommand="puasa";
 const Help='help' || 'Help';
 async function parseCommand(event) {
-  if(event.message.text.includes(dateCommand)) {
+  if(event.message.text.toLowerCase.includes(dateCommand)) {
     const dateKeyword = event.message.text.replace(dateCommand, '').trim();
     return (await handledateCommand(dateKeyword));
   }
-  else if(event.message.text.includes(shaumCommand)) {
+  else if(event.message.text.toLowerCase.includes(shaumCommand)) {
     const monthKeyword = event.message.text.split(' ');
     return (await handleShaumCommand(monthKeyword));
   }
