@@ -39,42 +39,42 @@ async function handleEvent(event) {
 
   return client.replyMessage(event.replyToken, parsedResponse)
 };
-// function compare(monthResponse){
-//   const eventlist=[];
-//   const dayFirst=parseInt(monthResponse.data[0].hijri.day);
-//   const dayLast=parseInt(monthResponse.data[monthResponse.length-1].hijri.day);
-//   const month=monthResponse.data[0].hijri.month.number;
-//   const month2=parseInt(month);
-//   const shaumMonth1= fetch(`https://database-mstei-rahmat-test-202.herokuapp.com/api/${month2}`).json();
-//   const shaumMonth2= fetch(`https://database-mstei-rahmat-test-202.herokuapp.com/api/${month2+1}`).json()
-//   shaumMonth1.date.forEach(element => {
-//     for(let i=0;i++;i<monthResponse.length){
-//       if(monthResponse.data[i].hijri.month.number===month){
-//         if(monthResponse.data[i].hijri.day===element.day){
-//           eventlist.push({
-//             date:monthResponse.data[i].gregorian.date,event:element.event
-//           })
-//         }
-//       }
-//     }
+async function compare(monthResponse){
+  const eventlist=[];
+  // const dayFirst=parseInt(monthResponse.data[0].hijri.day);
+  // const dayLast=parseInt(monthResponse.data[monthResponse.length-1].hijri.day);
+  const month=monthResponse.data[0].hijri.month.number;
+  const month2=parseInt(month);
+  const shaumMonth1= await fetchShaumData2(month2);
+  const shaumMonth2= await fetchShaumData2(month2+1);
+  shaumMonth1.date.forEach(element => {
+    for(let i=0;i++;i<monthResponse.length){
+      if(monthResponse.data[i].hijri.month.number===month){
+        if(monthResponse.data[i].hijri.day===element.day){
+          eventlist.push({
+            date:monthResponse.data[i].gregorian.date,event:element.event
+          })
+        }
+      }
+    }
     
     
-//   });
-//   shaumMonth2.date.forEach(element => {
-//     for(let i=0;i++;i<monthResponse.length){
-//       if(monthResponse.data[i].hijri.month.number===month){
-//         if(monthResponse.data[i].hijri.day===element.day){
-//           eventlist.push({
-//             date:monthResponse.data[i].gregorian.date,event:element.event
-//           })
-//         }
-//       }
-//     }
+  });
+  shaumMonth2.date.forEach(element => {
+    for(let i=0;i++;i<monthResponse.length){
+      if(monthResponse.data[i].hijri.month.number===month){
+        if(monthResponse.data[i].hijri.day===element.day){
+          eventlist.push({
+            date:monthResponse.data[i].gregorian.date,event:element.event
+          })
+        }
+      }
+    }
     
     
-//   });
-//   return eventlist
-// }
+  });
+  return eventlist
+}
 const dateCommand = "tanggal";
 const shaumCommand="puasa";
 const Help='help' || 'Help';
@@ -114,7 +114,7 @@ async function handleShaumCommand(dateKeyword) {
   const dateResponse = await fetchShaumData(dateKeyword);
   
   if(dateResponse.status === okStatus) {
-    return createTextResponse(dateResponse.data[0].hijri.date)
+    return createTextResponse(dateResponse[0].date)
   }
   return createTextResponse(dateResponse.message)
 }
@@ -173,6 +173,25 @@ async function fetchShaumData (dateKeyword) {
     .then(result => {
       if(result.status === okStatus){
         // if there is more than one date found, return the first one
+        return compare(result)
+      }
+      throw new Error("Kota tidak valid");
+    })
+    .catch(error => {
+      return {
+        status: errorStatus,
+        message: error.message
+      }
+    });
+    
+  return dateResponse;
+}
+async function fetchShaumData2(month) {
+  const dateResponse = await fetch(`https://database-mstei-rahmat-test-202.herokuapp.com/api/${month}`)
+    .then(response => {return response.json()})
+    .then(result => {
+      if(result.status === okStatus){
+        // if there is more than one date found, return the first one
         return result
       }
       throw new Error("Kota tidak valid");
@@ -186,7 +205,6 @@ async function fetchShaumData (dateKeyword) {
     
   return dateResponse;
 }
-
 app.listen(PORT, () => {
   let date = new Date().toString();
   console.log(`Deployed on ${date}`);
