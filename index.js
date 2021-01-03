@@ -47,7 +47,7 @@ function generate(monthResponse){
   monthResponse.data.forEach(item =>{
     if(item.gregorian.weekday.en===("Monday"||"Thursday")){
       eventlist.push({date : item.gregorian.day, event : 'Puasa Senin-Kamis'})}
-    else if(item.hijri.day===("13"||'14'||'15')){
+    else if(item.hijri.day===("13"||"14"||"15")){
       eventlist.push({date : item.gregorian.day, event : 'Puasa Ayyamul Bidh'})
     }
   })
