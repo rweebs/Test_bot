@@ -41,7 +41,7 @@ async function handleEvent(event) {
 };
 
 const shalatCommand = "sholat";
-const Help='help';
+const Help='help' || 'Help';
 async function parseCommand(event) {
   if(event.message.text.includes(shalatCommand)) {
     const cityKeyword = event.message.text.replace(shalatCommand, '').trim();
@@ -66,24 +66,41 @@ async function handleShalatCommand(cityKeyword) {
   const shalatResponse = await fetchShalatData(cityKeyword);
   
   if(shalatResponse.status === okStatus) {
-    return createTextResponse(shalatResponse.test)
+    return createTextResponse(shalatResponse.test);
   }
   return createTextResponse(shalatResponse.message)
 }
+
+Date.prototype.yyyymmdd = function() {
+  var mm = this.getMonth() + 1; // getMonth() is zero-based
+  var dd = this.getDate();
+
+  return [this.getFullYear(),
+          (mm>9 ? '' : '0') + mm,
+          (dd>9 ? '' : '0') + dd
+         ].join('-');
+};
 
 const  errorStatus = "error";
 const okStatus = "ok";
 async function fetchShalatData(cityKeyword) {
     
   const shalatResponse = await fetch(`https://api.banghasan.com/sholat/format/json/kota/nama/${cityKeyword}`)
+    .then(response => {return response.json()})
     .then(result => {
       if(result.status === okStatus){
         // if there is more than one city found, return the first one
         const fetchedCityCode = result.kota[0].id;
-        
-        return {test: fetchedCityCode}
+        return {test :fetchedCityCode}
       }
       throw new Error("Kota tidak valid");
+    })
+    .then(response => {return response.json()})
+    .then(result => {
+      if(result.status === okStatus) {
+        return result
+      }
+      throw new Error("jadwal fetch error");
     })
     .catch(error => {
       return {
@@ -94,8 +111,6 @@ async function fetchShalatData(cityKeyword) {
     
   return shalatResponse;
 }
-
-
 
 app.listen(PORT, () => {
   let date = new Date().toString();
