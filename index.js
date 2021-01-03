@@ -332,7 +332,7 @@ const createShaumDatesContainer = (fetchResult,monthKeyword) =>{
     containerPuasa.push(isipuasa(item));
   });
   containerPuasa.forEach(item =>{
-    containerJSON['body']['contents']['contents'].push(item)
+    containerJSON.body.contents[1].contents.push(item)
   });
   return containerJSON;
 }
