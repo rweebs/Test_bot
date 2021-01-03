@@ -46,18 +46,18 @@ async function compare(monthResponse){
   const month=monthResponse.data[0].hijri.month.number;
   const month2=parseInt(month);
   const shaumMonth1= await fetchShaumData2(month2);
-  const shaumMonth2= await fetchShaumData2(month2+1);
-  for (let j=0;j++;j<shaumMonth1.date.length){
-    for(let i=0;i++;i<monthResponse.length){
-      if(monthResponse.data[i].hijri.month.number===month){
-        if(monthResponse.data[i].hijri.day===shaumMonth1.date[j].day){
-          eventlist.push({
-            date:monthResponse.data[i].gregorian.date,event:shaumMonth1.date[j].event
-          })
-        }
-      }
-    }
-  }
+  // const shaumMonth2= await fetchShaumData2(month2+1);
+  // for (let j=0;j++;j<shaumMonth1.date.length){
+  //   for(let i=0;i++;i<monthResponse.length){
+  //     if(monthResponse.data[i].hijri.month.number===month){
+  //       if(monthResponse.data[i].hijri.day===shaumMonth1.date[j].day){
+  //         eventlist.push({
+  //           date:monthResponse.data[i].gregorian.date,event:shaumMonth1.date[j].event
+  //         })
+  //       }
+  //     }
+  //   }
+  // }
     
   // shaumMonth2.date.forEach(element => {
   //   for(let i=0;i++;i<monthResponse.length){
@@ -72,7 +72,7 @@ async function compare(monthResponse){
     
     
   // });
-  return eventlist
+  return shaumMonth1
 }
 const dateCommand = "tanggal";
 const shaumCommand="puasa";
@@ -113,7 +113,7 @@ async function handleShaumCommand(dateKeyword) {
   const dateResponse = await fetchShaumData(dateKeyword);
   
   if(dateResponse.status === okStatus) {
-    return createTextResponse(dateResponse[0].date)
+    return createTextResponse(dateResponse.date[0].day)
   }
   return createTextResponse(dateResponse.message)
 }
