@@ -92,7 +92,7 @@ async function handleShaumCommand(dateKeyword) {
   const dateResponse = await fetchShaumData(dateKeyword);
   
   if(dateResponse.status === okStatus) {
-    return createTextResponse(generateShaum(dateResponse))
+    return createTextResponse(generateShaum(generate(dateResponse)))
   }
   return createTextResponse(dateResponse.message)
 }
