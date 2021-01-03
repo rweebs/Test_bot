@@ -90,8 +90,7 @@ async function fetchShalatData(cityKeyword) {
     .then(result => {
       if(result.status === okStatus){
         // if there is more than one city found, return the first one
-        const fetchedCityCode = result.kota[0].id;
-        return {test :fetchedCityCode}
+        return result
       }
       throw new Error("Kota tidak valid");
     })
@@ -113,7 +112,7 @@ async function fetchShalatData(cityKeyword) {
 }
 
 function fetchedResult(shalatResponse){
-  return shalatResponse.test
+  return shalatResponse.kota[0].id
 }
 
 app.listen(PORT, () => {
