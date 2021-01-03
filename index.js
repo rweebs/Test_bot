@@ -39,16 +39,14 @@ async function handleEvent(event) {
 
   return client.replyMessage(event.replyToken, parsedResponse)
 };
-async function compare(monthResponse){
+function compare(monthResponse){
   const eventlist=[];
   const dayFirst=parseInt(monthResponse.data[0].hijri.day);
   const dayLast=parseInt(monthResponse.data[monthResponse.length-1].hijri.day);
   const month=monthResponse.data[0].hijri.month.number;
   const month2=parseInt(month);
-  const shaumMonth1= await fetch(`https://database-mstei-rahmat-test-202.herokuapp.com/api/${month2}`)
-  .then(response => {return response.json()});
-  const shaumMonth2= await fetch(`https://database-mstei-rahmat-test-202.herokuapp.com/api/${month2+1}`)
-  .then(response => {return response.json()});
+  const shaumMonth1= fetch(`https://database-mstei-rahmat-test-202.herokuapp.com/api/${month2}`).json();
+  const shaumMonth2= fetch(`https://database-mstei-rahmat-test-202.herokuapp.com/api/${month2+1}`).json()
   shaumMonth1.date.forEach(element => {
     for(let i=0;i++;i<monthResponse.length){
       if(monthResponse.data[i].hijri.month.number===month){
