@@ -40,23 +40,7 @@ async function handleEvent(event) {
 };
 function generate(monthResponse){
   const eventlist=[];
-  const ramadhan = false;
-  const syawal = false;
-  const dzulhijjah =false;
-  const muharram=false;
-  if (monthResponse.data[0].hijri.month.number===9 || monthResponse.data[monthResponse.data.length].hijri.month.number===9){
-    ramadhan=true;
-  }
-  else if (monthResponse.data[0].hijri.month.number===10 || monthResponse.data[monthResponse.data.length].hijri.month.number===10){
-    syawal=true;
-  }
-  else if (monthResponse.data[0].hijri.month.number===12 || monthResponse.data[monthResponse.data.length].hijri.month.number===12){
-    dzulhijjah=true;
-  }
-  else if (monthResponse.data[0].hijri.month.number===1 || monthResponse.data[monthResponse.data.length].hijri.month.number===1){
-    muharram=true;
-  }
-  if (syawal===true){
+  if (monthResponse.data[0].hijri.month.number===10 || monthResponse.data[monthResponse.data.length].hijri.month.number===10){
     monthResponse.data.forEach(item =>{
       if(item.hijri.month.number===10 && item.hijri.day==="01"){
         eventlist.push({date : item.gregorian.day, event : 'Idul Fitri (Haram Berpuasa)'})}
@@ -67,7 +51,7 @@ function generate(monthResponse){
       }
     )
   }
-  else if (dzulhijjah===true){
+  else if (monthResponse.data[0].hijri.month.number===12 || monthResponse.data[monthResponse.data.length].hijri.month.number===12){
     monthResponse.data.forEach(item =>{
       if(item.hijri.month.number===12 && item.hijri.day==='09'){
         eventlist.push({date : item.gregorian.day, event : 'Arafah'})}
@@ -82,7 +66,7 @@ function generate(monthResponse){
       }
     )
   }
-  else if (ramadhan){
+  else if (monthResponse.data[0].hijri.month.number===9 || monthResponse.data[monthResponse.data.length].hijri.month.number===9){
     monthResponse.data.forEach(item =>{
       if(item.hijri.month.number===9){
         eventlist.push({date : item.gregorian.day, event : 'Ramadhan'})}
@@ -93,7 +77,7 @@ function generate(monthResponse){
       }
     )
   }
-  else if (muharram){
+  else if (monthResponse.data[0].hijri.month.number===1 || monthResponse.data[monthResponse.data.length].hijri.month.number===1){
     monthResponse.data.forEach(item =>{
       if(item.hijri.month.number===1 && item.hijri.day==="10"){
         eventlist.push({date : item.gregorian.day, event : 'Asyura'})}
