@@ -45,9 +45,9 @@ function generate(monthResponse){
   dzulhijjah =false;
   muharram=false;
   monthResponse.data.forEach(item =>{
-    if(item.gregorian.weekday.en===("Monday"||"Thursday")){
+    if(item.gregorian.weekday.en==="Monday"||item.gregorian.weekday.en==="Thursday"){
       eventlist.push({date : item.gregorian.day, event : 'Puasa Senin-Kamis'})}
-    else if(item.hijri.day===("13"||"14"||"15")){
+    else if(item.hijri.day==="13"||item.hijri.day==="14"||item.hijri.day==="15"){
       eventlist.push({date : item.gregorian.day, event : 'Puasa Ayyamul Bidh'})
     }
   })
