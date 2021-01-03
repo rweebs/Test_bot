@@ -151,7 +151,7 @@ async function fetchShaumData (dateKeyword) {
     .then(result => {
       if(result.status === okStatus){
         // if there is more than one date found, return the first one
-        return compare(result)
+        return result
       }
       throw new Error("Kota tidak valid");
     })
