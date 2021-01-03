@@ -40,12 +40,12 @@ async function handleEvent(event) {
   return client.replyMessage(event.replyToken, parsedResponse)
 };
 
-const shalatCommand = "sholat";
+const dateCommand = "tanggal";
 const Help='help' || 'Help';
 async function parseCommand(event) {
-  if(event.message.text.includes(shalatCommand)) {
-    const cityKeyword = event.message.text.replace(shalatCommand, '').trim();
-    return (await handleShalatCommand(cityKeyword));
+  if(event.message.text.includes(dateCommand)) {
+    const dateKeyword = event.message.text.replace(dateCommand, '').trim();
+    return (await handledateCommand(dateKeyword));
   }
   else if(event.message.text.includes(Help)){
     return createTextResponse("Cara menggunakannya adalah dengan mengetik 'sholat (lokasi)'.\n\n Contoh : sholat Bekasi");
@@ -62,13 +62,13 @@ const createTextResponse = (textContent) => {
   }
 }
 
-async function handleShalatCommand(cityKeyword) {
-  const shalatResponse = await fetchShalatData(cityKeyword);
+async function handledateCommand(dateKeyword) {
+  const dateResponse = await fetchdateData(dateKeyword);
   
-  if(shalatResponse.status === okStatus) {
-    return createTextResponse(shalatResponse.kota[0].id)
+  if(dateResponse.status === okStatus) {
+    return createTextResponse(dateResponse.hijri.day+' '+dateResponse.hijri.month.en+' '+dateResponse.hijri.year)
   }
-  return createTextResponse(shalatResponse.message)
+  return createTextResponse(dateResponse.message)
 }
 
 Date.prototype.yyyymmdd = function() {
@@ -81,15 +81,15 @@ Date.prototype.yyyymmdd = function() {
          ].join('-');
 };
 
-const  errorStatus = "error";
-const okStatus = "ok";
-async function fetchShalatData(cityKeyword) {
+const  errorStatus = "Bad Request";
+const okStatus = "OK";
+async function fetchdateData(dateKeyword) {
     
-  const shalatResponse = await fetch(`https://api.banghasan.com/sholat/format/json/kota/nama/${cityKeyword}`)
+  const dateResponse = await fetch(` http://api.aladhan.com/v1/gToH?date=${dateKeyword}`)
     .then(response => {return response.json()})
     .then(result => {
       if(result.status === okStatus){
-        // if there is more than one city found, return the first one
+        // if there is more than one date found, return the first one
         return result
       }
       throw new Error("Kota tidak valid");
@@ -101,7 +101,7 @@ async function fetchShalatData(cityKeyword) {
       }
     });
     
-  return shalatResponse;
+  return dateResponse;
 }
 
 app.listen(PORT, () => {
