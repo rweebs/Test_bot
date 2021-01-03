@@ -40,10 +40,10 @@ async function handleEvent(event) {
 };
 function generate(monthResponse){
   const eventlist=[];
-  ramadhan = false;
-  syawal = false;
-  dzulhijjah =false;
-  muharram=false;
+  const ramadhan = false;
+  const syawal = false;
+  const dzulhijjah =false;
+  const muharram=false;
   if (monthResponse.data[0].hijri.month.number===9 || monthResponse.data[monthResponse.data.length].hijri.month.number===9){
     ramadhan=true;
   }
@@ -56,7 +56,7 @@ function generate(monthResponse){
   else if (monthResponse.data[0].hijri.month.number===1 || monthResponse.data[monthResponse.data.length].hijri.month.number===1){
     muharram=true;
   }
-  if (syawal){
+  if (syawal===true){
     monthResponse.data.forEach(item =>{
       if(item.hijri.month.number===10 && item.hijri.day==="01"){
         eventlist.push({date : item.gregorian.day, event : 'Idul Fitri (Haram Berpuasa)'})}
@@ -67,7 +67,7 @@ function generate(monthResponse){
       }
     )
   }
-  else if (dzulhijjah){
+  else if (dzulhijjah===true){
     monthResponse.data.forEach(item =>{
       if(item.hijri.month.number===12 && item.hijri.day==='09'){
         eventlist.push({date : item.gregorian.day, event : 'Arafah'})}
