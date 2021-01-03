@@ -66,7 +66,7 @@ async function handleShalatCommand(cityKeyword) {
   const shalatResponse = await fetchShalatData(cityKeyword);
   
   if(shalatResponse.status === okStatus) {
-    return createTextResponse(fetchedResult(shalatResponse))
+    return createTextResponse(shalatResponse.test)
   }
   return createTextResponse(shalatResponse.message)
 }
@@ -86,11 +86,22 @@ const okStatus = "ok";
 async function fetchShalatData(cityKeyword) {
     
   const shalatResponse = await fetch(`https://api.banghasan.com/sholat/format/json/kota/nama/${cityKeyword}`)
+    .then(response => {return response.json()})
+    .then(result => {
+      if(result.status === okStatus){
+        // if there is more than one city found, return the first one
+        return {test : result.kota[0].id}
+      }
+      throw new Error("Kota tidak valid");
+    })
+    .catch(error => {
+      return {
+        status: errorStatus,
+        message: error.message
+      }
+    });
+    
   return shalatResponse;
-}
-
-function fetchedResult(shalatResponse){
-  return shalatResponse.kota[0].id
 }
 
 app.listen(PORT, () => {
