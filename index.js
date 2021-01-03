@@ -116,7 +116,7 @@ async function handleShaumCommand(dateKeyword) {
   
   if(dateResponse.status === okStatus) {
     return createFlexResponse(
-      createShaumDatesContainer(generate(dateResponse),monthKeyword2),'Jadwal Puasa')
+      createShaumDatesContainer(generate(dateResponse)),'Jadwal Puasa')
   }
   return createTextResponse(dateResponse.message)
 }
@@ -196,7 +196,7 @@ async function fetchShaumData (dateKeyword) {
 //   })
 //   return listevent
 // }
-const createShaumDatesContainer = (fetchResult,monthKeyword) =>{
+const createShaumDatesContainer = (fetchResult) =>{
   let containerJSON = {
     "type": "bubble",
     "header": {
@@ -227,16 +227,7 @@ const createShaumDatesContainer = (fetchResult,monthKeyword) =>{
       "aspectRatio": "20:13",
       "aspectMode": "cover"
     },
-    "body": {
-      "type": "box",
-      "layout": "vertical",
-      "contents": [
-        {
-          "type": "text",
-          "text": `Bulan ${monthKeyword[1]+" "+monthKeyword[2]}`,
-          "weight": "bold",
-          "size": "xl"
-        },
+    "body":
         {
           "type": "box",
           "layout": "vertical",
@@ -273,8 +264,7 @@ const createShaumDatesContainer = (fetchResult,monthKeyword) =>{
             }
             
           ]
-        }
-      ],
+      ,
       "position": "relative"
     },
     "footer": {
@@ -332,7 +322,7 @@ const createShaumDatesContainer = (fetchResult,monthKeyword) =>{
     containerPuasa.push(isipuasa(item));
   });
   containerPuasa.forEach(item =>{
-    containerJSON.body.contents[1].contents.push(item)
+    containerJSON['body']['contents'].push(item)
   });
   return containerJSON;
 }
