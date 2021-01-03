@@ -189,8 +189,6 @@ async function fetchShaumData (dateKeyword) {
 async function fetchShaumData2(month) {
   const dateResponse = await fetch(`https://database-mstei-rahmat-test-202.herokuapp.com/api/${month}`)
     .then(response => {return response.json()})
-    .then(result => {
-        return result});
   return dateResponse;
 }
 app.listen(PORT, () => {
