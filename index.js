@@ -38,6 +38,9 @@ async function handleEvent(event) {
 
   return client.replyMessage(event.replyToken, parsedResponse)
 };
+String.prototype.toProperCase = function () {
+  return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+};
 function generate(monthResponse){
   const eventlist=[];
   monthResponse.data.forEach(item =>{
@@ -138,11 +141,11 @@ const dateCommand = "tanggal";
 const shaumCommand="puasa";
 const Help='help' || 'Help';
 async function parseCommand(event) {
-  if(event.message.text.toLowerCase.includes(dateCommand)) {
+  if(event.message.text.includes(dateCommand) || event.message.text.includes(dateCommand.toProperCase()) {
     const dateKeyword = event.message.text.replace(dateCommand, '').trim();
     return (await handledateCommand(dateKeyword));
   }
-  else if(event.message.text.toLowerCase.includes(shaumCommand)) {
+  else if(event.message.text.includes(shaumCommand) || event.message.text.includes(shaumCommand).toProperCase()) {
     const monthKeyword = event.message.text.split(' ');
     return (await handleShaumCommand(monthKeyword));
   }
