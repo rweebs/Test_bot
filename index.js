@@ -71,8 +71,6 @@ function generate(monthResponse){
     monthResponse.data.forEach(item =>{
       if(item.hijri.month.number===12 && item.hijri.day==='09'){
         eventlist.push({date : item.gregorian.day, event : 'Arafah'})}
-      else if(item.hijri.month.number===12 && item.hijri.day==='08'){
-        eventlist.push({date : item.gregorian.day, event : 'Tasu\'ah'})}
       else if(item.hijri.month.number===12 && item.hijri.day==='10'){
         eventlist.push({date : item.gregorian.day, event : 'Idul Adha (Haram Berpuasa)'})}
       else if(item.hijri.month.number===12 && (item.hijri.day==='11' || item.hijri.day==='12' || item.hijri.day==='13')){
@@ -99,6 +97,8 @@ function generate(monthResponse){
     monthResponse.data.forEach(item =>{
       if(item.hijri.month.number===1 && item.hijri.day==="10"){
         eventlist.push({date : item.gregorian.day, event : 'Asyura'})}
+      else if(item.hijri.month.number===1 && item.hijri.day==='09'){
+        eventlist.push({date : item.gregorian.day, event : 'Tasu\'ah'})}
       else if(item.hijri.day==="13"||item.hijri.day==="14"||item.hijri.day==="15"){
         eventlist.push({date : item.gregorian.day, event : 'Ayyamul Bidh'})}
       else if(item.gregorian.weekday.en==="Monday"||item.gregorian.weekday.en==="Thursday"){
