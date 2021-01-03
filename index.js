@@ -66,7 +66,7 @@ async function handledateCommand(dateKeyword) {
   const dateResponse = await fetchdateData(dateKeyword);
   
   if(dateResponse.status === okStatus) {
-    return createTextResponse(dateResponse.hijri.day+' '+dateResponse.hijri.month.en+' '+dateResponse.hijri.year)
+    return createTextResponse(dateResponse.data.hijri.day+' '+dateResponse.data.hijri.month.en+' '+dateResponse.data.hijri.year)
   }
   return createTextResponse(dateResponse.message)
 }
