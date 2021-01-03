@@ -141,11 +141,11 @@ const dateCommand = "tanggal";
 const shaumCommand="puasa";
 const Help='help' || 'Help';
 async function parseCommand(event) {
-  if(event.message.text.includes(dateCommand) || event.message.text.includes(dateCommand.toProperCase()) {
+  if(event.message.text.includes(dateCommand) || event.message.text.includes(dateCommand.toProperCase())) {
     const dateKeyword = event.message.text.replace(dateCommand, '').trim();
     return (await handledateCommand(dateKeyword));
   }
-  else if(event.message.text.includes(shaumCommand) || event.message.text.includes(shaumCommand).toProperCase()) {
+  else if(event.message.text.includes(shaumCommand) || event.message.text.includes(shaumCommand.toProperCase())) {
     const monthKeyword = event.message.text.split(' ');
     return (await handleShaumCommand(monthKeyword));
   }
