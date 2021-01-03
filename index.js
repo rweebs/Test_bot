@@ -233,37 +233,7 @@ const createShaumDatesContainer = (fetchResult) =>{
           "layout": "vertical",
           "margin": "lg",
           "spacing": "sm",
-          "contents": [
-            {
-              "type": "box",
-              "layout": "baseline",
-              "spacing": "sm",
-              "contents": [
-                {
-                  "type": "text",
-                  "text": "Tanggal",
-                  "size": "sm",
-                  "flex": 2,
-                  "weight": "bold",
-                  "decoration": "none",
-                  "position": "relative",
-                  "align": "center",
-                  "gravity": "center",
-                  "wrap": true
-                },
-                {
-                  "type": "text",
-                  "text": "Puasa",
-                  "wrap": true,
-                  "size": "sm",
-                  "flex": 5,
-                  "weight": "bold",
-                  "style": "normal"
-                }
-              ]
-            }
-            
-          ]
+          "contents": []
       ,
       "position": "relative"
     },
@@ -292,7 +262,7 @@ const createShaumDatesContainer = (fetchResult) =>{
   }
 
   const isipuasa = (item) =>{
-    const container ={
+    return {
       "type": "box",
       "layout": "baseline",
       "spacing": "sm",
@@ -317,13 +287,38 @@ const createShaumDatesContainer = (fetchResult) =>{
     }
 
   }
-  const containerPuasa=[]
+  const containerPuasa=[{
+    "type": "box",
+    "layout": "baseline",
+    "spacing": "sm",
+    "contents": [
+      {
+        "type": "text",
+        "text": "Tanggal",
+        "size": "sm",
+        "flex": 2,
+        "weight": "bold",
+        "decoration": "none",
+        "position": "relative",
+        "align": "center",
+        "gravity": "center",
+        "wrap": true
+      },
+      {
+        "type": "text",
+        "text": "Puasa",
+        "wrap": true,
+        "size": "sm",
+        "flex": 5,
+        "weight": "bold",
+        "style": "normal"
+      }
+    ]
+  }]
   fetchResult.forEach(item =>{
     containerPuasa.push(isipuasa(item));
   });
-  containerPuasa.forEach(item =>{
-    containerJSON['body']['contents'].push(item)
-  });
+  containerJSON['body']['contents']=containerPuasa;
   return containerJSON;
 }
 app.listen(PORT, () => {
