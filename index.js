@@ -333,7 +333,8 @@ const createShaumDatesContainer = (fetchResult,monthKeyword) =>{
   });
   containerPuasa.forEach(item =>{
     containerJSON['body']['contents']['contents'].push(item)
-  })
+  });
+  return containerJSON;
 }
 app.listen(PORT, () => {
   let date = new Date().toString();
