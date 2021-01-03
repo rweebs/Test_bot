@@ -47,32 +47,31 @@ async function compare(monthResponse){
   const month2=parseInt(month);
   const shaumMonth1= await fetchShaumData2(month2);
   const shaumMonth2= await fetchShaumData2(month2+1);
-  shaumMonth1.date.forEach(element => {
+  for (let j=0;j++;j<shaumMonth1.date.length){
     for(let i=0;i++;i<monthResponse.length){
       if(monthResponse.data[i].hijri.month.number===month){
-        if(monthResponse.data[i].hijri.day===element.day){
+        if(monthResponse.data[i].hijri.day===shaumMonth1.date[j].day){
           eventlist.push({
-            date:monthResponse.data[i].gregorian.date,event:element.event
+            date:monthResponse.data[i].gregorian.date,event:shaumMonth1.date[j].event
           })
         }
       }
     }
+  }
+    
+  // shaumMonth2.date.forEach(element => {
+  //   for(let i=0;i++;i<monthResponse.length){
+  //     if(monthResponse.data[i].hijri.month.number===month){
+  //       if(monthResponse.data[i].hijri.day===element.day){
+  //         eventlist.push({
+  //           date:monthResponse.data[i].gregorian.date,event:element.event
+  //         })
+  //       }
+  //     }
+  //   }
     
     
-  });
-  shaumMonth2.date.forEach(element => {
-    for(let i=0;i++;i<monthResponse.length){
-      if(monthResponse.data[i].hijri.month.number===month){
-        if(monthResponse.data[i].hijri.day===element.day){
-          eventlist.push({
-            date:monthResponse.data[i].gregorian.date,event:element.event
-          })
-        }
-      }
-    }
-    
-    
-  });
+  // });
   return eventlist
 }
 const dateCommand = "tanggal";
