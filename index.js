@@ -137,7 +137,7 @@ async function fetchdateData(dateKeyword) {
     .then(result => {
       if(result.status === okStatus){
         // if there is more than one date found, return the first one
-        return result
+        return compare(dateResponse,dateKeyword)
       }
       throw new Error("Kota tidak valid");
     })
@@ -166,6 +166,7 @@ async function fetchShaumData (dateKeyword) {
     bulan.set('desember',12);
     const month=bulan.get(dateKeyword[1].toLowerCase());
     const year=dateKeyword[2];
+  
   const dateResponse = await fetch(`http://api.aladhan.com/v1/gToHCalendar/${month}/${year}`)
     .then(response => {return response.json()})
     .then(result => {
