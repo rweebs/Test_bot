@@ -39,7 +39,7 @@ async function handleEvent(event) {
   return client.replyMessage(event.replyToken, parsedResponse)
 };
 function generate(monthResponse){
-  const eventlist=[];
+  let eventlist=[];
   if (monthResponse.data[0].hijri.month.number===10 || monthResponse.data[monthResponse.data.length].hijri.month.number===10){
     monthResponse.data.forEach(item =>{
       if(item.hijri.month.number===10 && item.hijri.day==="01"){
